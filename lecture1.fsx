@@ -26,6 +26,26 @@ let showWordCount text =
 
 showWordCount "Couldn't put Humpty together again"
 
+// more about let
+
+let powerOfFour n = (n * n) * (n * n) * 1.0
+let poewrOfFour' n = (n * n) * (n * n)
+powerOfFour 3
+
+let badDefinition1 =
+  let words = splitAtSpaces text
+  let text = "We three kings"
+  word.Length
+
+let badDefinition2 = badDefinition2 + 1
+
+let powerOfFourPlusTwo n =
+  let n1 = n * n
+  let n2 = n1 * n1
+  let n3 = n2 + 2
+  n3
+
+
 // http function required for coursework:
 
 open System.IO
