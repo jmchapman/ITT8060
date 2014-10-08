@@ -21,6 +21,8 @@
 
   This coursework is optional but you can get extra bonus marks.
   Please submit it as bonusA/bonusA.fsx in the Git system at git.ttu.ee.
+  
+  The deadline for completing the above procedure is Friday, October 24, 2014.
 
 *)
 
