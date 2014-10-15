@@ -38,7 +38,7 @@
 //    http://www.theregister.co.uk/headlines.atom
 //
 //    Using the example from lecture7.fsx, write a data structure AtomPart in F#
-//    that you would use to represent such feeds. You should use discriminated a
+//    that you would use to represent such feeds. You should use a
 //    discriminated union and records in the data structure.
 
 // 2. Write a function that loads the downloaded XML file and parses it into
