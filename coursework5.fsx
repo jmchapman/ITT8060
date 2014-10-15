@@ -39,19 +39,21 @@
 //
 //    Using the example from lecture7.fsx, write a data structure AtomPart in F#
 //    that you would use to represent such feeds. You should use a
-//    discriminated union and records in the data structure.
+//    discriminated union and record(s) in the data structure.
+//    Hint: the document structure contains some header data and then a list of entries.
+//          You will need to skip over the header data only keeping the date and time
+//          when the file was downloaded.
 
 // 2. Write a function that loads the downloaded XML file and parses it into
 //    the data structure designed in task 1. You need to use the constructs provided
 //    by System.Xml.Linq.
 
-// 3. Write an aggregate function that returns how many words each author 
-//    wrote on a particular day.
+// 3. Write an aggregate function that takes a document of type designed in question 1 and returns
+//    how many words each author wrote on a particular day. Make sure you check if the day of the
+//    feed and the day of the story match!
 
-// 4. Write a function that takes a list of key words and returns the authors of 
-//    stories containing at least one of the key words.
+// 4. Write a function that takes a document of type designed in question 1 and a list of key words
+//    and returns the authors of stories containing at least one of the key words.
 
-// 5. Write a function that takes a list of key words and returns the authors of 
-//    stories containing all of the key words.
-
-
+// 5. Write a function that takes a document of type designed in question 1 and a list of key words
+//    and returns the authors of stories containing all of the key words.
