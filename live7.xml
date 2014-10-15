@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<titled title ="Advanced programming class 2013"
+        font ="Cambria" size="18" style="bold">
+  <split orientation="vertical">
+    <image filename="C:\somewhere\image.jpg"/>
+    <split orientation="horizontal">
+      <text>In this lecture we introduce how to process structured documents ...</text>
+      <text>This is another part of the text ...</text>
+    </split>
+  </split>
+  
+</titled>
+
