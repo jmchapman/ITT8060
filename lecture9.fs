@@ -6,7 +6,7 @@
 
    Based on chapter 9 of RWFP.
    The unit testing part is in chapter 11, but the code 
-   here has been updated to support FsUnit.
+   here has been updated to support FsUnit and NUnit.
 
 If tests fail to run in Visual studio/Windows (FsUnit dll related error messages) then check that
 your Help -> About Visual Studio shows that you have installed update 3 to VS2013 and appropriate 
@@ -19,13 +19,34 @@ Version 12.0.30723.00 Update 3
 Microsoft .NET Framework
 Version 4.5.51641
 
-Several people also encountered problems in non-windows platforms.
-The file will be updated once the problem is resolved.
-   
+If that does not work, you can create an application configuration file manually.
+
+In MonoDevelop it is possible to get FsUnit with NUnit to work
+by adding application configuration file:
+
+Add -> New File -> Misc -> Application configuration file
+
+You should put the following XML into the contents of the applicatin configuration file:
+
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <runtime>
+    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+      <dependentAssembly>
+        <assemblyIdentity name="FSharp.Core" publicKeyToken="b03f5f7f11d50a3a" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-4.3.0.0" newVersion="4.3.0.0" />
+      </dependentAssembly>
+    </assemblyBinding>
+  </runtime>
+</configuration>
+
+After completing the above, the below code works
+in Linux using MonoDevelop (adding dependencies using
+NuGet required installing NUnit manually before FsUnit).
+
 *)
 
 
-module Lecture9.Tests
 
 open System
 
