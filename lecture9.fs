@@ -1,4 +1,5 @@
-﻿(*
+﻿
+(*
 
    Lecture Oct 29, 2014: Combining behaviour with data.
    Unit testing with FsUnit and NUnit.
@@ -7,9 +8,23 @@
    The unit testing part is in chapter 11, but the code 
    here has been updated to support FsUnit.
 
-   NB! Initial version. Code will be added during the lecture!
+If tests fail to run in Visual studio/Windows (FsUnit dll related error messages) then check that
+your Help -> About Visual Studio shows that you have installed update 3 to VS2013 and appropriate 
+.Net framework updates.
+
+E.g. 
+
+Microsoft Visual Studio Ultimate 2013
+Version 12.0.30723.00 Update 3
+Microsoft .NET Framework
+Version 4.5.51641
+
+Several people also encountered problems in non-windows platforms.
+The file will be updated once the problem is resolved.
    
 *)
+
+
 module Lecture9.Tests
 
 open System
@@ -20,16 +35,17 @@ type Rect =
    Width  : float32
    Height : float32}
 
-  member this.Deflate(wspace,hspace) =
-    {Left = this.Left + wspace
+  member this.Deflate(vspace,hspace) =
+    {Left = this.Left + vspace
      Top = this.Top + hspace
-     Width = this.Width - (2.0f * wspace)
+     Width = this.Width - (2.0f * vspace)
      Height = this.Height - (2.0f * hspace)}
   
   member this.Area() =
     this.Width * this.Height
 
 let r =  {Left=0.0f; Top=0.0f; Width=100.0f; Height=200.0f}
+r.Area()
 
 open System
 
@@ -99,6 +115,36 @@ type Triangle(a:float,b:float,c:float) =
   member this.IsTriangle =
     a+b > c
 
+#if INTERACTIVE
+#r @"..\packages\NUnit.2.6.3\lib\nunit.framework.dll"
+#r @"..\packages\FsUnit.1.3.0.1\Lib\Net40\FsUnit.NUnit.dll"
+#endif
+
+open NUnit.Framework
+open FsUnit
+
+[<TestFixture>]
+type ``Given a rightangled triangle`` () =
+  let triangle = new Triangle(3.0,4.0,5.0)
+
+  [<Test>]
+  member this.
+    ``Whether the right angled triangle is a triangle``()=
+    triangle.IsTriangle |> should equal true
+
+  [<Test>]
+  member this.
+    ``Whether the right angle check works`` ()=
+    triangle.IsRightAngled |> should equal true
+
+[<TestFixture>]
+type ``Given some negative values`` () =
+  let triangle = new Triangle(3.0,4.0,-5.0)
+
+  [<Test>]
+  member this.
+    ``The triangle test should fail`` () =
+    triangle.IsTriangle |> should equal false
 
 //[<EntryPoint>]
 //let main argv = 
