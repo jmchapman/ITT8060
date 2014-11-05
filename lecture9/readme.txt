@@ -1,6 +1,10 @@
 
 How to manually compile lecture9.fs?
 
+NB! you do not need this to run things in Visual Studio.
+Get NUnit, FsUnit and NUnit Visual Studio integration
+packages via NuGet and just build!
+
 Copy lecture9.fs into the directory containing files
 
 FsUnit.NUnit.dll
