@@ -47,7 +47,7 @@ let check_separation (str:string) =
     
 *)
 let convert(input:string)=
-        if input.GetType().Equals(string) then
+        if input.GetType().Equals(typeof<string>) then
             if (input.Replace("M", "").Replace("D", "").Replace("C", "").Replace("L", "").Replace("X", "").Replace("V", "").Replace("I", "")).Length > 0 then
                failwith "invalid input"
         let sum = 0
