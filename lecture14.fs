@@ -1,4 +1,6 @@
-﻿
+﻿// Learn more about F# at http://fsharp.net
+// See the 'F# Tutorial' project for more help.
+
 open System.Reactive.Linq
 let obs1 = Observable.Return(42) // new int[0]
 let enu1 = []
@@ -68,7 +70,8 @@ open System.IO
 
 let download(url:string) = async {
     let request = HttpWebRequest.Create(url)
-    use! response = request.AsyncGetResponse()
+    let! response = request.AsyncGetResponse()
+    use response = response
     let stream = response.GetResponseStream()
     use reader = new StreamReader(stream)
     let! text = reader.AsyncReadToEnd()
@@ -79,14 +82,14 @@ open System
 open System.Drawing
 open System.Windows.Forms
 open System.Reactive.Linq
-
+open System.Reactive.Concurrency
 let newForm = new Form()
 let textbox = new TextBox(Width = 200)
 let textbox2 = new TextBox(Top = 20, Multiline = true, Height = 200, Width = 200)
 newForm.Controls.Add(textbox)
 newForm.Controls.Add(textbox2)
 let ts = textbox.TextChanged.Throttle(TimeSpan.FromSeconds(1.0))
-let sub = ts.Subscribe(fun e -> 
+let sub = ts.ObserveOn(textbox).Subscribe(fun e -> 
   printfn "%s" textbox.Text
   let adown = download textbox.Text
   try 
