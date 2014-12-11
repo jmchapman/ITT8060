@@ -58,12 +58,6 @@ let filteredMouse =
 mainForm.Show()
 filteredMouse.Dispose()
 
-//failed example
-open System.IO
-let fs = File.OpenRead(@"c:\Users\jmcha_000\Desktop\Script1.fsx")
-let ofs = Observable.map 
-let bs : byte [] = Array.create 1024 (byte 0)
-
 // async downloader
 open System.Net
 open System.IO
@@ -88,15 +82,16 @@ let textbox = new TextBox(Width = 200)
 let textbox2 = new TextBox(Top = 20, Multiline = true, Height = 200, Width = 200)
 newForm.Controls.Add(textbox)
 newForm.Controls.Add(textbox2)
-let ts = textbox.TextChanged.Throttle(TimeSpan.FromSeconds(1.0))
-let sub = ts.ObserveOn(textbox).Subscribe(fun e -> 
-  printfn "%s" textbox.Text
-  let adown = download textbox.Text
-  try 
-    textbox2.Text <- Async.RunSynchronously adown
-  with
-    _ -> textbox2.Text <- "error"
-  )
+
+let ts = 
+  (textbox.TextChanged.Throttle(TimeSpan.FromSeconds(1.0))
+  |> Observable.map(fun (e : EventArgs) -> 
+       let adown : Async<string> = download textbox.Text
+       Observable.FromAsync(fun () -> Async.StartAsTask(adown)).Catch(Observable.Return("error")))
+  |> Observable.Concat).ObserveOn(textbox)
+
+let sub = ts.Subscribe(fun s -> printfn "%s" s;textbox2.Text <- s)
+
 newForm.Show()
 
 sub.Dispose()
