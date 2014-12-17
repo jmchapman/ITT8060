@@ -57,3 +57,39 @@ let rec numbers num = seq {
   yield num
   yield! numbers (num + 1) }
 numbers 10
+
+// caching photo browser
+
+open System.IO
+open System.Drawing
+type ImageInfo = {Name: string; Preview : Lazy<Bitmap>}
+let dir = @"C:\board"
+let createLazyResized file = 
+    lazy (printfn "doing stuff!"
+          use bmp = Bitmap.FromFile file
+          let resized = new Bitmap(400,300)
+          use gr = Graphics.FromImage(resized)
+          let dst = Rectangle(0,0,400,300)
+          let src = Rectangle(0,0,bmp.Width,bmp.Height)
+          gr.InterpolationMode <- Drawing2D.InterpolationMode.High
+          gr.DrawImage(bmp, dst, src, GraphicsUnit.Pixel)
+          resized)
+
+let files = 
+  Directory.GetFiles(dir, "*.jpg") |> Array.map (fun file -> 
+    { Name = Path.GetFileName file
+      Preview = createLazyResized file }             )
+
+open System
+open System.Windows.Forms
+
+let main = new Form (Text="Photos", ClientSize= Size(600,300))
+let pict = new PictureBox (Dock=DockStyle.Fill)
+let list = new ListBox(Dock=DockStyle.Left, Width = 200, DataSource=files,DisplayMember="Name")
+list.SelectedIndexChanged.Add(fun _ -> 
+  let info = files.[list.SelectedIndex]
+  pict.Image <- info.Preview.Value)
+main.Controls.Add pict
+main.Controls.Add list
+
+main.Show()
